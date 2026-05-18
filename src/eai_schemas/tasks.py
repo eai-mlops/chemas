@@ -43,12 +43,33 @@ class EAIBase(BaseModel):
     )
 
 
+class LoraWeight(BaseModel):
+    """A single LoRA adapter applied at inference time.
+
+    Used by FLUX-LoRA, SDXL-LoRA, and most LoRA-enabled image/video pipelines.
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    path: HttpUrl = Field(
+        ...,
+        description="URL of the LoRA weights file (.safetensors), or a HF repo path "
+                    "the backend resolves.",
+    )
+    scale: float = Field(
+        default=1.0,
+        ge=0.0,
+        le=4.0,
+        description="Application strength multiplier. 1.0 = full strength.",
+    )
+
+
 # ---------------------------------------------------------------------------
 # IMAGE
 # ---------------------------------------------------------------------------
 
 class TextToImageInput(EAIBase):
-    """Common input for text-to-image (FLUX, Z-Image, nano-banana, SDXL, ...)."""
+    """Common input for text-to-image (FLUX, FLUX-LoRA, Z-Image, nano-banana, SDXL, ...)."""
 
     prompt: str = Field(..., description="Prompt to generate the image from.")
     image_size: ImageSize | None = "landscape_4_3"
@@ -60,6 +81,10 @@ class TextToImageInput(EAIBase):
     output_format: ImageOutputFormat = "jpeg"
     acceleration: Acceleration | None = "none"
     negative_prompt: str | None = None
+    loras: list[LoraWeight] = Field(
+        default_factory=list,
+        description="LoRA adapters to apply. Ignored by non-LoRA backbones.",
+    )
 
 
 class ImageToImageInput(EAIBase):
@@ -76,6 +101,7 @@ class ImageToImageInput(EAIBase):
     output_format: ImageOutputFormat = "png"
     strength: float | None = Field(default=None, ge=0.0, le=1.0)
     enable_safety_checker: bool = True
+    loras: list[LoraWeight] = Field(default_factory=list)
 
 
 class ImageInpaintingInput(EAIBase):
@@ -92,6 +118,7 @@ class ImageInpaintingInput(EAIBase):
     output_format: ImageOutputFormat = "png"
     enable_safety_checker: bool = True
     acceleration: Acceleration | None = "regular"
+    loras: list[LoraWeight] = Field(default_factory=list)
 
 
 class ImageUpscalingInput(EAIBase):

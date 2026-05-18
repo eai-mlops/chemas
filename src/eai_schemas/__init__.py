@@ -5,6 +5,7 @@ from importlib.metadata import PackageNotFoundError, version as _pkg_version
 from eai_schemas.tasks import (
     # base
     EAIBase,
+    LoraWeight,
     # image
     TextToImageInput,
     ImageToImageInput,
@@ -44,6 +45,7 @@ except PackageNotFoundError:  # package not installed (editable source checkout)
 __all__ = [
     "__version__",
     "EAIBase",
+    "LoraWeight",
     "TextToImageInput",
     "ImageToImageInput",
     "ImageInpaintingInput",
