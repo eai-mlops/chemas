@@ -4,7 +4,7 @@ Pydantic input models for generation task types.
 
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl
-
+import uuid
 
 # ---------------------------------------------------------------------------
 # shared enums / reusable literal types
@@ -36,6 +36,11 @@ class EAIBase(BaseModel):
     extras the schema docs don't always enumerate."""
 
     model_config = ConfigDict(extra="allow")
+
+    request_id: str = Field(
+        default_factory=lambda: f'req-{uuid.uuid4().hex}',
+        description="Request ID for tracking the request.",
+    )
 
     sync_mode: bool | None = Field(
         default=None,
