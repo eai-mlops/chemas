@@ -174,6 +174,7 @@ class TextToVideoInput(EAIBase):
     camera_fixed: bool | None = None
     enable_safety_checker: bool = True
     negative_prompt: str | None = None
+    loras: list[LoraWeight] = Field(default_factory=list)
 
 
 class ImageToVideoInput(EAIBase):
@@ -187,6 +188,7 @@ class ImageToVideoInput(EAIBase):
     negative_prompt: str = "blur, distort, and low quality"
     cfg_scale: float | None = Field(default=0.5, ge=0.0, le=1.0)
     seed: int | None = None
+    loras: list[LoraWeight] = Field(default_factory=list)
 
 
 class VideoToVideoInput(EAIBase):
@@ -199,6 +201,7 @@ class VideoToVideoInput(EAIBase):
     keep_audio: bool = False
     image_urls: list[HttpUrl] | None = None  # reference images
     seed: int | None = None
+    loras: list[LoraWeight] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
