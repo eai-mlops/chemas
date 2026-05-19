@@ -42,6 +42,11 @@ class EAIBase(BaseModel):
         description="Request ID for tracking the request.",
     )
 
+    webhook_url: HttpUrl | None = Field(
+        default=None, 
+        description="Webhook URL to send the request to."
+    )
+
     sync_mode: bool | None = Field(
         default=None,
         description="If true, return media as a data URI without storing request history.",
@@ -284,6 +289,15 @@ class VisionInput(EAIBase):
         description="Backing vision model id, e.g. 'google/gemini-2.5-flash'. "
                     "Required for the OpenRouter-style router endpoint; ignored otherwise.",
     )
+
+
+class ModelCard(BaseModel):
+    id: str = Field(description="The ID of the model.")
+    object: Literal["model"] = "model"
+
+class ModelList(BaseModel):
+    object: Literal["list"] = "list"
+    data: list[ModelCard] = Field(default_factory=list, description="The list of models.")
 
 
 # ---------------------------------------------------------------------------

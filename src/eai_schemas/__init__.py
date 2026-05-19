@@ -6,6 +6,8 @@ from eai_schemas.tasks import (
     # base
     EAIBase,
     LoraWeight,
+    ModelCard,
+    ModelList,
     # image
     TextToImageInput,
     ImageToImageInput,
@@ -69,4 +71,6 @@ __all__ = [
     "ImageOutputFormat",
     "Acceleration",
     "TextureQuality",
+    "ModelCard",
+    "ModelList",
 ]
