@@ -47,12 +47,6 @@ class EAIBase(BaseModel):
         description="Webhook URL to send the request to."
     )
 
-    sync_mode: bool | None = Field(
-        default=None,
-        description="If true, return media as a data URI without storing request history.",
-    )
-
-
 class LoraWeight(BaseModel):
     """A single LoRA adapter applied at inference time.
 
