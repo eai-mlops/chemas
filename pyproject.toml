@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling>=1.25"]
+requires = ["hatchling>=1.25", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "eai-schemas"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Reusable Pydantic input models for generative-AI task types (text-to-image, text-to-video, TTS, STT, 3D, vision, ...)."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -38,6 +38,12 @@ dev = [
 [project.urls]
 Homepage = "https://github.com/eai-mlops/eai-schemas"
 Issues = "https://github.com/eai-mlops/eai-schemas/issues"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/eai_schemas/_version.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/eai_schemas"]
