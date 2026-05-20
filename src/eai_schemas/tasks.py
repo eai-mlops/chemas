@@ -3,7 +3,7 @@ Pydantic input models for generation task types.
 """
 
 from typing import Literal
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl
+from pydantic import BaseModel, ConfigDict, Field, HttpUrl, AnyUrl
 import uuid
 
 # ---------------------------------------------------------------------------
@@ -97,8 +97,8 @@ class ImageToImageInput(EAIBase):
     list image_urls — both are widely used across generation models."""
 
     prompt: str = Field(..., description="Edit instruction or new prompt.")
-    image_url: HttpUrl | None = None
-    image_urls: list[HttpUrl] | None = None
+    image_url: AnyUrl | None = None
+    image_urls: list[AnyUrl] | None = None
     num_images: int = Field(default=1, ge=1)
     seed: int | None = None
     aspect_ratio: ImageAspectRatio | None = "auto"
@@ -112,8 +112,8 @@ class ImageInpaintingInput(EAIBase):
     """Common input for inpainting models (z-image-turbo-inpaint, FLUX-fill, ...)."""
 
     prompt: str
-    image_url: HttpUrl
-    mask_image_url: HttpUrl
+    image_url: AnyUrl
+    mask_image_url: AnyUrl
     image_size: ImageSize | None = "auto"
     num_inference_steps: int | None = None
     num_images: int = Field(default=1, ge=1)
@@ -128,7 +128,7 @@ class ImageInpaintingInput(EAIBase):
 class ImageUpscalingInput(EAIBase):
     """Common input for upscaling models (Topaz, ESRGAN, clarity-upscaler, ...)."""
 
-    image_url: HttpUrl
+    image_url: AnyUrl
     upscale_factor: float = Field(default=2.0, ge=1.0, le=8.0)
     model: str | None = None
     output_format: Literal["jpeg", "png"] = "jpeg"
@@ -140,7 +140,7 @@ class ImageUpscalingInput(EAIBase):
 class BackgroundRemovalInput(EAIBase):
     """Common input for background-removal models (BiRefNet v1/v2, RemBG, ...)."""
 
-    image_url: HttpUrl
+    image_url: AnyUrl
     model: str | None = None
     output_format: Literal["webp", "png", "gif"] = "png"
     output_mask: bool = False
@@ -175,7 +175,8 @@ class ImageToVideoInput(EAIBase):
     """Common input for image-to-video (Kling i2v, Seedance i2v, Sora i2v, ...)."""
 
     prompt: str
-    image_url: HttpUrl
+    image_url: AnyUrl
+    end_image_url: AnyUrl | None = None
     duration: VideoDuration = "5"
     aspect_ratio: VideoAspectRatio | None = None
     resolution: VideoResolution | None = None
@@ -189,11 +190,11 @@ class VideoToVideoInput(EAIBase):
     """Common input for video-to-video / video-edit (Kling O1 v2v, ...)."""
 
     prompt: str
-    video_url: HttpUrl
+    video_url: AnyUrl
     aspect_ratio: VideoAspectRatio = "auto"
     duration: VideoDuration = "5"
     keep_audio: bool = False
-    image_urls: list[HttpUrl] | None = None  # reference images
+    image_urls: list[AnyUrl] | None = None  # reference images
     seed: int | None = None
     loras: list[LoraWeight] = Field(default_factory=list)
 
@@ -218,7 +219,7 @@ class TextToSpeechInput(EAIBase):
 class SpeechToTextInput(EAIBase):
     """Common input for STT models (Whisper, Wizper, ...)."""
 
-    audio_url: HttpUrl
+    audio_url: AnyUrl
     task: Literal["transcribe", "translate"] = "transcribe"
     language: str | None = None
     diarize: bool = False
@@ -247,7 +248,7 @@ TextureQuality = Literal["no", "standard", "HD"]
 class ImageTo3DInput(EAIBase):
     """Common input for image-to-3D models (Trellis, Hunyuan3D, Tripo i2-3d, ...)."""
 
-    image_url: HttpUrl
+    image_url: AnyUrl
     seed: int | None = None
     texture: TextureQuality = "standard"
     pbr: bool = True
@@ -279,7 +280,7 @@ class VisionInput(EAIBase):
     """Common input for vision / image-understanding models (Gemini, Florence-2,
     NSFW filter, OpenRouter vision, ...)."""
 
-    image_urls: list[HttpUrl] = Field(..., min_length=1)
+    image_urls: list[AnyUrl] = Field(..., min_length=1)
     prompt: str
     model: str | None = Field(
         default=None,

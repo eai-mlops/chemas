@@ -38,6 +38,36 @@ from eai_schemas.tasks import (
     Acceleration,
     TextureQuality,
 )
+from eai_schemas.responses import (
+    # base / file primitives
+    EAIResponseBase,
+    File,
+    ImageFile,
+    Timings,
+    # image
+    TextToImageOutput,
+    ImageToImageOutput,
+    ImageInpaintingOutput,
+    ImageUpscalingOutput,
+    BackgroundRemovalOutput,
+    # video
+    TextToVideoOutput,
+    ImageToVideoOutput,
+    VideoToVideoOutput,
+    # audio / speech / music
+    TextToSpeechOutput,
+    SpeechToTextOutput,
+    TextToMusicOutput,
+    TranscriptionChunk,
+    DiarizationSegment,
+    # 3d
+    ImageTo3DOutput,
+    TextTo3DOutput,
+    # vision
+    VisionOutput,
+    # registry
+    TASK_OUTPUT_MODELS,
+)
 
 try:
     __version__ = _pkg_version("eai-schemas")
@@ -46,6 +76,7 @@ except PackageNotFoundError:  # package not installed (editable source checkout)
 
 __all__ = [
     "__version__",
+    # inputs
     "EAIBase",
     "LoraWeight",
     "TextToImageInput",
@@ -73,4 +104,26 @@ __all__ = [
     "TextureQuality",
     "ModelCard",
     "ModelList",
+    # outputs
+    "EAIResponseBase",
+    "File",
+    "ImageFile",
+    "Timings",
+    "TextToImageOutput",
+    "ImageToImageOutput",
+    "ImageInpaintingOutput",
+    "ImageUpscalingOutput",
+    "BackgroundRemovalOutput",
+    "TextToVideoOutput",
+    "ImageToVideoOutput",
+    "VideoToVideoOutput",
+    "TextToSpeechOutput",
+    "SpeechToTextOutput",
+    "TextToMusicOutput",
+    "TranscriptionChunk",
+    "DiarizationSegment",
+    "ImageTo3DOutput",
+    "TextTo3DOutput",
+    "VisionOutput",
+    "TASK_OUTPUT_MODELS",
 ]
