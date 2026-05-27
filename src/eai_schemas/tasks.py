@@ -181,7 +181,7 @@ class ImageToVideoInput(EAIBase):
     aspect_ratio: VideoAspectRatio | None = None
     resolution: VideoResolution | None = None
     negative_prompt: str = "blur, distort, and low quality"
-    cfg_scale: float | None = Field(default=0.5, ge=0.0, le=1.0)
+    cfg_scale: float | None = Field(default=3.5, ge=0.0, le=5.0)
     seed: int | None = None
     loras: list[LoraWeight] = Field(default_factory=list)
 
