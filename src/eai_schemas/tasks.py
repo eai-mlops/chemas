@@ -152,9 +152,8 @@ class BackgroundRemovalInput(EAIBase):
 # VIDEO
 # ---------------------------------------------------------------------------
 
-VideoResolution = Literal["480p", "540p", "720p", "1080p"]
-VideoDuration = Literal["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-
+VideoResolution = Literal["480p", "540p", "580p", "720p", "1080p"]
+VideoDuration = Literal["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
 
 class TextToVideoInput(EAIBase):
     """Common input for text-to-video (Seedance, Kling, Sora, Veo, ...)."""
