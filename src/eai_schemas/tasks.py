@@ -75,6 +75,8 @@ class LoraWeight(BaseModel):
 class TextToImageInput(EAIBase):
     """Common input for text-to-image (FLUX, FLUX-LoRA, Z-Image, nano-banana, SDXL, ...)."""
 
+    type: Literal["text-to-image"] = "text-to-image"
+
     prompt: str = Field(..., description="Prompt to generate the image from.")
     image_size: ImageSize | None = "landscape_4_3"
     num_inference_steps: int | None = None
@@ -96,6 +98,8 @@ class ImageToImageInput(EAIBase):
     img2img, Qwen-Image-Edit, ...). Accepts either a single image_url or a
     list image_urls — both are widely used across generation models."""
 
+    type: Literal["image-to-image"] = "image-to-image"
+
     prompt: str = Field(..., description="Edit instruction or new prompt.")
     image_url: AnyUrl | None = None
     image_urls: list[AnyUrl] | None = None
@@ -110,6 +114,8 @@ class ImageToImageInput(EAIBase):
 
 class ImageInpaintingInput(EAIBase):
     """Common input for inpainting models (z-image-turbo-inpaint, FLUX-fill, ...)."""
+
+    type: Literal["image-inpainting"] = "image-inpainting"
 
     prompt: str
     image_url: AnyUrl
@@ -128,6 +134,8 @@ class ImageInpaintingInput(EAIBase):
 class ImageUpscalingInput(EAIBase):
     """Common input for upscaling models (Topaz, ESRGAN, clarity-upscaler, ...)."""
 
+    type: Literal["image-upscaling"] = "image-upscaling"
+
     image_url: AnyUrl
     upscale_factor: float = Field(default=2.0, ge=1.0, le=8.0)
     model: str | None = None
@@ -139,6 +147,8 @@ class ImageUpscalingInput(EAIBase):
 
 class BackgroundRemovalInput(EAIBase):
     """Common input for background-removal models (BiRefNet v1/v2, RemBG, ...)."""
+
+    type: Literal["background-removal"] = "background-removal"
 
     image_url: AnyUrl
     model: str | None = None
@@ -158,6 +168,8 @@ VideoDuration = Literal["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",
 class TextToVideoInput(EAIBase):
     """Common input for text-to-video (Seedance, Kling, Sora, Veo, ...)."""
 
+    type: Literal["text-to-video"] = "text-to-video"
+
     prompt: str
     aspect_ratio: VideoAspectRatio = "16:9"
     resolution: VideoResolution = "1080p"
@@ -173,6 +185,8 @@ class TextToVideoInput(EAIBase):
 class ImageToVideoInput(EAIBase):
     """Common input for image-to-video (Kling i2v, Seedance i2v, Sora i2v, ...)."""
 
+    type: Literal["image-to-video"] = "image-to-video"
+
     prompt: str
     image_url: AnyUrl
     end_image_url: AnyUrl | None = None
@@ -187,6 +201,8 @@ class ImageToVideoInput(EAIBase):
 
 class VideoToVideoInput(EAIBase):
     """Common input for video-to-video / video-edit (Kling O1 v2v, ...)."""
+
+    type: Literal["video-to-video"] = "video-to-video"
 
     prompt: str
     video_url: AnyUrl
@@ -205,6 +221,8 @@ class VideoToVideoInput(EAIBase):
 class TextToSpeechInput(EAIBase):
     """Common input for TTS models (xai-tts, ElevenLabs, Kokoro, ...)."""
 
+    type: Literal["text-to-speech"] = "text-to-speech"
+
     text: str = Field(..., description="Text to synthesize (often <= 15k chars).")
     voice: str = "default"
     language: str = "auto"
@@ -218,6 +236,8 @@ class TextToSpeechInput(EAIBase):
 class SpeechToTextInput(EAIBase):
     """Common input for STT models (Whisper, Wizper, ...)."""
 
+    type: Literal["speech-to-text"] = "speech-to-text"
+
     audio_url: AnyUrl
     task: Literal["transcribe", "translate"] = "transcribe"
     language: str | None = None
@@ -230,6 +250,8 @@ class SpeechToTextInput(EAIBase):
 
 class TextToMusicInput(EAIBase):
     """Common input for text-to-music models (CassetteAI, Stable Audio, MMAudio, ...)."""
+
+    type: Literal["text-to-music"] = "text-to-music"
 
     prompt: str
     duration: int = Field(..., ge=1, description="Duration of generated music, seconds.")
@@ -247,6 +269,8 @@ TextureQuality = Literal["no", "standard", "HD"]
 class ImageTo3DInput(EAIBase):
     """Common input for image-to-3D models (Trellis, Hunyuan3D, Tripo i2-3d, ...)."""
 
+    type: Literal["image-to-3d"] = "image-to-3d"
+
     image_url: AnyUrl
     seed: int | None = None
     texture: TextureQuality = "standard"
@@ -258,6 +282,8 @@ class ImageTo3DInput(EAIBase):
 
 class TextTo3DInput(EAIBase):
     """Common input for text-to-3D models (Tripo t2-3d, ...)."""
+
+    type: Literal["text-to-3d"] = "text-to-3d"
 
     prompt: str = Field(..., max_length=1024)
     negative_prompt: str | None = Field(default=None, max_length=255)
@@ -278,6 +304,8 @@ class TextTo3DInput(EAIBase):
 class VisionInput(EAIBase):
     """Common input for vision / image-understanding models (Gemini, Florence-2,
     NSFW filter, OpenRouter vision, ...)."""
+
+    type: Literal["vision"] = "vision"
 
     image_urls: list[AnyUrl] = Field(..., min_length=1)
     prompt: str
