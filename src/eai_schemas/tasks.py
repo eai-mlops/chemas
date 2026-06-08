@@ -47,6 +47,11 @@ class EAIBase(BaseModel):
         description="Webhook URL to send the request to."
     )
 
+    model: str = Field(
+        ...,
+        description="Model to use for the request.",
+    )
+
 class LoraWeight(BaseModel):
     """A single LoRA adapter applied at inference time.
 
@@ -138,7 +143,6 @@ class ImageUpscalingInput(EAIBase):
 
     image_url: AnyUrl
     upscale_factor: float = Field(default=2.0, ge=1.0, le=8.0)
-    model: str | None = None
     output_format: Literal["jpeg", "png"] = "jpeg"
     prompt: str | None = Field(default=None, description="Optional guidance prompt.")
     face_enhancement: bool | None = None
@@ -151,7 +155,6 @@ class BackgroundRemovalInput(EAIBase):
     type: Literal["background-removal"] = "background-removal"
 
     image_url: AnyUrl
-    model: str | None = None
     output_format: Literal["webp", "png", "gif"] = "png"
     output_mask: bool = False
     refine_foreground: bool = True
@@ -309,11 +312,6 @@ class VisionInput(EAIBase):
 
     image_urls: list[AnyUrl] = Field(..., min_length=1)
     prompt: str
-    model: str | None = Field(
-        default=None,
-        description="Backing vision model id, e.g. 'google/gemini-2.5-flash'. "
-                    "Required for the OpenRouter-style router endpoint; ignored otherwise.",
-    )
 
 
 class ModelCard(BaseModel):
