@@ -106,6 +106,8 @@ class ImageToImageInput(EAIBase):
     type: Literal["image-to-image"] = "image-to-image"
 
     prompt: str = Field(..., description="Edit instruction or new prompt.")
+    negative_prompt: str | None = None
+
     image_url: AnyUrl | None = None
     image_urls: list[AnyUrl] | None = None
     num_images: int = Field(default=1, ge=1)
@@ -123,6 +125,8 @@ class ImageInpaintingInput(EAIBase):
     type: Literal["image-inpainting"] = "image-inpainting"
 
     prompt: str
+    negative_prompt: str | None = None
+
     image_url: AnyUrl
     mask_image_url: AnyUrl
     image_size: ImageSize | None = "auto"
@@ -208,6 +212,7 @@ class VideoToVideoInput(EAIBase):
     type: Literal["video-to-video"] = "video-to-video"
 
     prompt: str
+    negative_prompt: str | None = None
     video_url: AnyUrl
     aspect_ratio: VideoAspectRatio = "auto"
     duration: VideoDuration = "5"
